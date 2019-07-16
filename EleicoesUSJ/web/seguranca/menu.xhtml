@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="men">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>VotacaoUSJ</title>
+            </f:facet>
+            <f:facet name="first">
+                <style type="text/css">
+                    body .ui-steps .ui-steps-item {
+                        width: 25%;
+                    }
+
+                    body .ui-state-highlight {
+                        text-shadow: none !important;
+                    }
+
+                    body .ui-steps.custom {
+                        margin-bottom: 30px;
+                    }
+
+                    body .ui-steps.custom .ui-steps-item .ui-menuitem-link {
+                        height: 10px;
+                        padding: 0 1em;
+                        overflow: visible;
+                        border: 1px solid #c8c8c8;
+                        display: block;
+                        background-color: #FFFFFF;
+                    }
+
+                    body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-number {
+                        background-color: #0081c2;
+                        color: #FFFFFF;
+                        display: inline-block;
+                        width: 30px;
+                        border-radius: 10px;
+                        margin-top: -10px;
+                        margin-bottom: 10px;
+                        position: relative;
+                        top: -3px;
+                    }
+
+                    body .ui-steps.custom .ui-steps-item .ui-menuitem-link .ui-steps-title {
+                        margin-top: -6px;
+                    }
+
+                    body .ui-steps.custom .ui-steps-item.ui-state-highlight .ui-menuitem-link .ui-steps-title {
+                        color: #555;
+                    }
+                </style>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <p:layout  fullPage="true">
+                <p:layoutUnit position="center">
+                    <h:form id="formulario">
+                        <h1>VotaçãoUSJ</h1>
+                        <p:panel header="Urna">
+                            <h:panelGrid columns="3" >
+                                <p:panel  closable="true" >
+                                    <h:outputText value="Presidente" style="font-weight: bolder"/>
+                                    <p:selectOneRadio disabled="#{menuBean.votouPredidente}" value="#{menuBean.numeroPresidente}" id="presidentesRadios"  layout="grid" columns="1">
+                                        <f:selectItems value="#{menuBean.listaPresidentes}" var="lisPres" itemLabel="#{lisPres.nomepresidente}" itemValue="#{lisPres.numero}"  />/>
+                                    </p:selectOneRadio>
+                                </p:panel>
+                                <p:panel>
+                                    <h:outputText value="Governador" style="font-weight: bolder"/>
+                                    <p:selectOneRadio  disabled="#{menuBean.votouGovernador}" value="#{menuBean.numeroGovernador}" id="governadoresRadios"  layout="grid" columns="1">
+                                        <f:selectItems value="#{menuBean.listaGovernadores}" var="listGov" itemLabel="#{listGov.nomegovernador}" itemValue="#{listGov.numero}"/>
+                                    </p:selectOneRadio>
+                                </p:panel>
+                                <p:panel>
+                                    <h:outputText value="Prefeito" style="font-weight: bolder"/>
+                                    <p:selectOneRadio disabled="#{menuBean.votouPrefeito}" value="#{menuBean.numeroPrefeito}" id="prefeitosRadios"  layout="grid" columns="1">
+                                        <f:selectItems value="#{menuBean.listaPrefeitos}" var="listPref" itemLabel="#{listPref.nomeprefeito}" itemValue="#{listPref.numero}"/>
+                                    </p:selectOneRadio>
+                                </p:panel>
+                            </h:panelGrid>
+                            <p:commandButton id ="Votar" value="Votar" disabled="#{menuBean.btnVotar}" action="#{menuBean.votar()}" update="formulario:Resultado formulario"/>
+
+                        </p:panel>
+                        <p:panel header="Candidatos" toggleable="true">
+                            <h:outputText value="Presidente" style="font-weight: bolder"/>
+                            <h:panelGrid columns="2" cellpadding="10" width="800">
+                                <p:dataTable var="pres" value="#{menuBean.listaPresidentes}">
+                                    <p:column headerText="Candidato" width="200">
+                                        <h:outputText value="#{pres.nomepresidente}" />
+                                    </p:column>
+
+                                    <p:column headerText="Vice" width="200">
+                                        <h:outputText  value="#{pres.vice}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Partido" width="60">
+                                        <h:outputText value="#{pres.partido}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Slogan" width="200">
+                                        <h:outputText value="#{pres.slogan}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Numero" width="60">
+                                        <h:outputText value="#{pres.numero}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <h:outputText value="Governador" style="font-weight: bolder"/>
+                            <h:panelGrid columns="2" cellpadding="10" width="800">
+                                <p:dataTable var="gov" value="#{menuBean.listaGovernadores}" >
+                                    <p:column headerText="Candidato" width="200">
+                                        <h:outputText value="#{gov.nomegovernador}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Vice" width="200">
+                                        <h:outputText value="#{gov.vice}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Partido" width="60">
+                                        <h:outputText value="#{gov.partido}" />
+                                    </p:column>
+
+                                    <p:column headerText="Slogan" width="200">
+                                        <h:outputText value="#{gov.slogan}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Numero" width="60">
+                                        <h:outputText value="#{gov.numero}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <h:outputText value="Prefeito" style="font-weight: bolder"/>
+                            <h:panelGrid columns="2" cellpadding="10" width="800">
+                                <p:dataTable var="pref" value="#{menuBean.listaPrefeitos}" >
+                                    <p:column headerText="Candidato" width="200">
+                                        <h:outputText value="#{pref.nomeprefeito}" />
+                                    </p:column>
+
+                                    <p:column headerText="Vice" width="200">
+                                        <h:outputText value="#{pref.vice}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Partido" width="60">
+                                        <h:outputText  value="#{pref.partido}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Slogan" width="200">
+                                        <h:outputText  value="#{pref.slogan}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Numero" width="60">
+                                        <h:outputText value="#{pref.numero}" />
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGrid>
+                        </p:panel>
+                        <p:panel id="Resultado" header="Resultado" toggleable="true">
+                            <h:panelGrid columns="2" cellpadding="10" width="450">
+                                <p:dataTable  var="ResPres" value="#{menuBean.listaPresidentes}" >
+                                    <p:column headerText="Candidato">
+                                        <h:outputText value="#{ResPres.nomepresidente}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Votos">
+                                        <h:outputText value="#{ResPres.votos}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10" width="450">
+                                <p:dataTable var="ResGov" value="#{menuBean.listaGovernadores}" >
+                                    <p:column headerText="Candidato">
+                                        <h:outputText value="#{ResGov.nomegovernador}" />
+                                    </p:column>
+
+                                    <p:column headerText="Votos">
+                                        <h:outputText value="#{ResGov.votos}" />
+                                    </p:column>
+
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2" cellpadding="10" width="450">
+                                <p:dataTable var="ResPref" value="#{menuBean.listaPrefeitos}">
+                                    <p:column headerText="Candidato">
+                                        <h:outputText value="#{ResPref.nomeprefeito}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Votos">
+                                        <h:outputText value="#{ResPref.votos}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:panelGrid>
+                            <p:commandButton id ="Att" value="Atualizar Resultado" action="#{menuBean.att()}"  update="formulario:Resultado"/>
+                        </p:panel> 
+                    </h:form>
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+
+    </f:view>
+</html>
+
